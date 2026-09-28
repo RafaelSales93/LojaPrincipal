@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemi Tech | Eletrônicos e Utilidades</title>
+    <meta
+      name="description"
+      content="Loja virtual com eletrônicos, utilidades domésticas e atendimento via WhatsApp."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="logo">
+          <span class="logo-mark">G</span>
+          <span>Minha Loja</span>
+        </div>
+
+        <nav class="menu" aria-label="Menu principal">
+          <a href="#produtos">Produtos</a>
+          <a href="#sobre">Sobre</a>
+          <a href="#contato">Contato</a>
+        </nav>
+
+        <a class="btn btn-primary" href="#produtos">Comprar agora</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <span class="badge">Loja online confiável</span>
+            <h1>Onde o Marcio lava dinheiro para comer Peixe no Almoço.</h1>
+            <p>
+              Encontre produtos para casa, trabalho e lazer com qualidade, preço justo e
+              suporte ágil para sua compra.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#produtos">Ver produtos</a>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="promo-card">
+              <div class="promo-image">
+                <img
+                  src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80"
+                  alt="Notebook e acessórios"
+                />
+              </div>
+              <div class="promo-details">
+                <span>Oferta da semana</span>
+                <strong>Notebook Essentials</strong>
+                <small>Até 15% off</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats">
+        <div class="container stats-grid">
+          <div>
+            <strong>2.500+</strong>
+            <span>Pedidos feitos</span>
+          </div>
+          <div>
+            <strong>48h</strong>
+            <span>Entrega rápida</span>
+          </div>
+          <div>
+            <strong>4.9/5</strong>
+            <span>Avaliação dos clientes</span>
+          </div>
+          <div>
+            <strong>Atendimento</strong>
+            <span>Via WhatsApp</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="produtos" class="products">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Produtos em destaque</span>
+            <h2>Escolha o que combina com você</h2>
+          </div>
+
+          <div id="productGrid" class="product-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="sobre" class="benefits">
+        <div class="container">
+          <div class="section-heading centered">
+            <span class="eyebrow">Por que comprar aqui?</span>
+            <h2>Produto de qualidade, compra fácil e atendimento humanizado.</h2>
+          </div>
+
+          <div class="benefit-grid">
+            <article>
+              <h3>Entrega segura</h3>
+              <p>Envio rápido e rastreado para todo o país.</p>
+            </article>
+            <article>
+              <h3>Preço justo</h3>
+              <p>Produtos com excelente custo-benefício e ofertas exclusivas.</p>
+            </article>
+            <article>
+              <h3>Suporte direto</h3>
+              <p>Atendimento personalizado pelo WhatsApp para tirar dúvidas.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="cart-floating">
+      <button id="cartToggle" class="cart-toggle" type="button" aria-expanded="false">
+        Carrinho
+        <span id="cartBadge" class="cart-badge">0</span>
+      </button>
+
+      <aside id="cartPanel" class="cart-panel" aria-label="Carrinho de compras">
+        <div class="cart-header">
+          <h3>Seu carrinho</h3>
+          <button id="closeCart" class="close-cart" type="button" aria-label="Fechar carrinho">×</button>
+        </div>
+
+        <div id="cartItems" class="cart-items">
+          <p class="empty-cart">Seu carrinho está vazio.</p>
+        </div>
+
+        <div class="cart-summary">
+          <div class="totals">
+            <span>Total</span>
+            <strong id="cartTotal">R$ 0,00</strong>
+          </div>
+          <button id="checkoutButton" class="checkout-btn" type="button" disabled>
+            Revisar por e-mail
+          </button>
+          <button id="whatsappCheckoutButton" class="whatsapp-checkout-btn" type="button" disabled>
+            Enviar pelo WhatsApp
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <div id="emailPreview" class="email-preview hidden" aria-live="polite">
+      <div class="email-preview-card">
+        <div class="email-preview-header">
+          <h3>Resumo do pedido</h3>
+          <button id="closeEmailPreview" type="button" aria-label="Fechar resumo do pedido">×</button>
+        </div>
+
+        <textarea id="emailPreviewText" readonly></textarea>
+
+        <div class="email-actions">
+          <button id="copyEmailButton" type="button" class="copy-email-btn">Copiar pedido</button>
+          <button id="openMailButton" type="button" class="open-mail-btn">Abrir e-mail</button>
+        </div>
+      </div>
+    </div>
+
+    <footer id="contato" class="footer">
+      <div class="container footer-inner">
+        <div>
+          <div class="logo">
+            <span class="logo-mark">G</span>
+            <span>Gemi Tech</span>
+          </div>
+          <p>Seu parceiro em eletrônicos e utilidades para o dia a dia.</p>
+        </div>
+
+        <div class="contact-box">
+          <strong>Contato</strong>
+          <a href="mailto:vendas@gemitech.com.br">vendas@gemitech.com.br</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
