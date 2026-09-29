@@ -7,7 +7,7 @@ const products = [
     description: "Miniatura detalhada do GEELY MONJARO 2027 para colecionadores e apaixonados por carros.",
     tag: "Novo",
     image:
-      "https://drive.usercontent.google.com/download?id=1GdQVJD1mDhF0JPXwX4fD1e8s5zzkEbgg&export=download",
+      "https://lh3.googleusercontent.com/d/1GdQVJD1mDhF0JPXwX4fD1e8s5zzkEbgg=w900",
   },
   {
     name: "Fone Bluetooth Pro",
@@ -91,6 +91,7 @@ const CHECKOUT_COOLDOWN_MS = 3000;
 const allowedImageOrigins = new Set([
   "https://images.unsplash.com",
   "https://drive.usercontent.google.com",
+  "https://lh3.googleusercontent.com",
 ]);
 
 let cart = [];
