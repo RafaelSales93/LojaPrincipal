@@ -79,6 +79,11 @@ const orderEmail = "rafael.sales@sct.ce.gov.br";
 
 let cart = [];
 
+/**
+ * Formata valores em moeda brasileira.
+ * @param {number} value - Valor a ser formatado.
+ * @returns {string} Valor em moeda BRL.
+ */
 function formatCurrency(value) {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -86,12 +91,37 @@ function formatCurrency(value) {
   }).format(value);
 }
 
-function getCartCount() {
-  return cart.reduce((sum, item) => sum + item.quantity, 0);
+/**
+ * Busca um produto pelo nome.
+ * @param {string} productName - Nome do produto.
+ * @returns {{ name:string, category:string, price:number, rating:number, description:string, tag:string, image:string } | undefined}
+ */
+function findProductByName(productName) {
+  return products.find((product) => product.name === productName);
 }
 
+/**
+ * Retorna a quantidade total de itens no carrinho.
+ * @returns {number}
+ */
+function getCartCount() {
+  return cart.reduce((count, item) => count + item.quantity, 0);
+}
+
+/**
+ * Retorna o valor total do carrinho.
+ * @returns {number}
+ */
+function getCartTotal() {
+  return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+}
+
+/**
+ * Adiciona um produto ao carrinho ou incrementa a quantidade caso já exista.
+ * @param {string} productName - Nome do produto.
+ */
 function addToCart(productName) {
-  const product = products.find((item) => item.name === productName);
+  const product = findProductByName(productName);
   if (!product) return;
 
   const existingItem = cart.find((item) => item.name === product.name);
@@ -105,16 +135,25 @@ function addToCart(productName) {
   renderCart();
 }
 
+/**
+ * Remove um produto do carrinho.
+ * @param {string} productName - Nome do produto.
+ */
 function removeFromCart(productName) {
   cart = cart.filter((item) => item.name !== productName);
   renderCart();
 }
 
-function changeQuantity(productName, change) {
+/**
+ * Ajusta a quantidade de um item no carrinho.
+ * @param {string} productName - Nome do produto.
+ * @param {number} delta - Variação da quantidade.
+ */
+function changeQuantity(productName, delta) {
   const item = cart.find((entry) => entry.name === productName);
   if (!item) return;
 
-  item.quantity += change;
+  item.quantity += delta;
 
   if (item.quantity <= 0) {
     removeFromCart(productName);
@@ -124,15 +163,14 @@ function changeQuantity(productName, change) {
   renderCart();
 }
 
-function getCartTotal() {
-  return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-}
-
+/**
+ * Renderiza o estado do carrinho na tela.
+ */
 function renderCart() {
   const count = getCartCount();
   const total = getCartTotal();
 
-  cartBadge.textContent = count;
+  cartBadge.textContent = String(count);
   cartTotal.textContent = formatCurrency(total);
   checkoutButton.disabled = count === 0;
   whatsappCheckoutButton.disabled = count === 0;
@@ -164,12 +202,21 @@ function renderCart() {
   cartItems.querySelectorAll("button[data-action]").forEach((button) => {
     button.addEventListener("click", () => {
       const { action, product } = button.dataset;
-      if (action === "increase") changeQuantity(product, 1);
-      if (action === "decrease") changeQuantity(product, -1);
+      if (action === "increase") {
+        changeQuantity(product, 1);
+      }
+
+      if (action === "decrease") {
+        changeQuantity(product, -1);
+      }
     });
   });
 }
 
+/**
+ * Monta o resumo do pedido para WhatsApp ou e-mail.
+ * @returns {{ itemsText: string, total: number, text: string }}
+ */
 function getOrderSummary() {
   const itemsText = cart
     .map((item) => `${item.name} x${item.quantity} - ${formatCurrency(item.price * item.quantity)}`)
@@ -184,6 +231,10 @@ function getOrderSummary() {
   };
 }
 
+/**
+ * Cria o conteúdo do e-mail de pedido.
+ * @returns {{ subject: string, body: string, mailtoLink: string }}
+ */
 function buildEmailMessage() {
   const { itemsText, total } = getOrderSummary();
   const subject = "Pedido finalizado - Gemi Tech";
@@ -196,24 +247,40 @@ function buildEmailMessage() {
   };
 }
 
+/**
+ * Copia o texto do pedido para a área de transferência.
+ */
 async function copyEmailText() {
+  if (cart.length === 0) return;
+
   const { body, subject } = buildEmailMessage();
   const fullText = `Assunto: ${subject}\n\n${body}`;
 
   try {
+    if (!navigator.clipboard || typeof navigator.clipboard.writeText !== "function") {
+      throw new Error("Clipboard não suportado");
+    }
+
     await navigator.clipboard.writeText(fullText);
-    alert("Pedido copiado. Cole no e-mail para enviar.");
+    window.alert("Pedido copiado. Cole no e-mail para enviar.");
   } catch (error) {
-    alert(`Pedido pronto para copiar:\n\n${fullText}`);
+    console.error("Erro ao copiar pedido:", error);
+    window.alert(`Pedido pronto para copiar:\n\n${fullText}`);
   }
 }
 
+/**
+ * Exibe o preview do pedido em e-mail.
+ */
 function showEmailPreview() {
   const { subject, body } = buildEmailMessage();
   emailPreviewText.value = `Assunto: ${subject}\n\n${body}`;
   emailPreview.classList.remove("hidden");
 }
 
+/**
+ * Envia o pedido por e-mail, abrindo o cliente de e-mail quando confirmado.
+ */
 function sendOrderByEmail() {
   if (cart.length === 0) return;
 
@@ -225,6 +292,9 @@ function sendOrderByEmail() {
   }
 }
 
+/**
+ * Envia o pedido pelo WhatsApp.
+ */
 function openWhatsAppCart() {
   if (cart.length === 0) return;
 
@@ -238,6 +308,9 @@ function openWhatsAppCart() {
   window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
 }
 
+/**
+ * Renderiza os produtos na grade de catálogo.
+ */
 function renderProducts() {
   productGrid.innerHTML = products
     .map(
@@ -267,38 +340,45 @@ function renderProducts() {
     )
     .join("");
 
-  const buttons = document.querySelectorAll(".buy-btn");
-  buttons.forEach((button) => {
+  document.querySelectorAll(".buy-btn").forEach((button) => {
     button.addEventListener("click", () => {
-      addToCart(button.dataset.product);
+      const { product } = button.dataset;
+      addToCart(product);
       cartPanel.classList.add("open");
       cartToggle.setAttribute("aria-expanded", "true");
     });
   });
 }
 
-cartToggle.addEventListener("click", () => {
-  const isOpen = cartPanel.classList.toggle("open");
-  cartToggle.setAttribute("aria-expanded", String(isOpen));
-});
+/**
+ * Garante que o carrinho e os botões relevantes tenham os eventos necessários.
+ */
+function bindCartEvents() {
+  cartToggle.addEventListener("click", () => {
+    const isOpen = cartPanel.classList.toggle("open");
+    cartToggle.setAttribute("aria-expanded", String(isOpen));
+  });
 
-closeCart.addEventListener("click", () => {
-  cartPanel.classList.remove("open");
-  cartToggle.setAttribute("aria-expanded", "false");
-});
+  closeCart.addEventListener("click", () => {
+    cartPanel.classList.remove("open");
+    cartToggle.setAttribute("aria-expanded", "false");
+  });
 
-closeEmailPreview.addEventListener("click", () => {
-  emailPreview.classList.add("hidden");
-});
+  closeEmailPreview.addEventListener("click", () => {
+    emailPreview.classList.add("hidden");
+  });
 
-copyEmailButton.addEventListener("click", copyEmailText);
-openMailButton.addEventListener("click", () => {
-  const { mailtoLink } = buildEmailMessage();
-  window.location.href = mailtoLink;
-});
+  copyEmailButton.addEventListener("click", copyEmailText);
 
-checkoutButton.addEventListener("click", sendOrderByEmail);
-whatsappCheckoutButton.addEventListener("click", openWhatsAppCart);
+  openMailButton.addEventListener("click", () => {
+    const { mailtoLink } = buildEmailMessage();
+    window.location.href = mailtoLink;
+  });
 
+  checkoutButton.addEventListener("click", sendOrderByEmail);
+  whatsappCheckoutButton.addEventListener("click", openWhatsAppCart);
+}
+
+bindCartEvents();
 renderProducts();
 renderCart();
