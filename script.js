@@ -6,7 +6,7 @@ const products = [
     rating: 5,
     description: "Miniatura detalhada do GEELY MONJARO 2027 para colecionadores e apaixonados por carros.",
     tag: "Novo",
-    image: "produtos/geely-monjaro.webp",
+    image: "produtos/acessorios/geely-monjaro.webp",
   },
   {
     name: "Fone Bluetooth Pro",
@@ -36,7 +36,7 @@ const products = [
     description: "Som potente com bateria de longa duração, ideal para casa, praia e viagens.",
     tag: "Top review",
     image:
-      "produtos/caixa-som.jpg",
+      "produtos/acessorios/caixa-som.jpg",
   },
   {
     name: "Ventilador de Mesa",

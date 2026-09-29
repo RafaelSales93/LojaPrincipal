@@ -43,7 +43,9 @@ A **Gemi Tech** é uma loja virtual demonstrativa de eletrônicos e utilidades. 
 index.html                  # Estrutura da loja
 style.css                   # Estilo e responsividade
 script.js                   # Interações e carrinho
-produtos/                   # Imagens dos produtos
+produtos/
+├── acessorios/             # Imagens de acessórios e itens físicos
+└── servicos/               # Imagens dos serviços
 README.md                   # Documentação
 .github/workflows/pages.yml # Publicação no GitHub Pages
 ```
@@ -60,9 +62,9 @@ Depois, acesse `http://localhost:8000`.
 
 ## Como adicionar produtos
 
-1. Coloque a imagem do novo produto dentro da pasta `produtos/`.
+1. Coloque a imagem em `produtos/acessorios/` ou `produtos/servicos/`.
 2. Abra o arquivo `script.js` e adicione um objeto na lista `products`.
-3. Use o caminho da imagem, por exemplo: `produtos/novo-item.jpg`.
+3. Use o caminho da imagem, por exemplo: `produtos/acessorios/novo-item.jpg`.
 4. Salve, teste localmente e envie as alterações para o GitHub.
 
 ## Roteiro para apresentação
