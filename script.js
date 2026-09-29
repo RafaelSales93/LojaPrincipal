@@ -1,5 +1,15 @@
 const products = [
   {
+    name: "Miniatura Carro GEELY MONJARO 2027",
+    category: "Colecionáveis",
+    price: 59.9,
+    rating: 5,
+    description: "Miniatura detalhada do GEELY MONJARO 2027 para colecionadores e apaixonados por carros.",
+    tag: "Novo",
+    image:
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80",
+  },
+  {
     name: "Fone Bluetooth Pro",
     category: "Eletrônicos",
     price: 189.9,
