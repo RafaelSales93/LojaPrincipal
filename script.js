@@ -76,8 +76,68 @@ const closeEmailPreview = document.getElementById("closeEmailPreview");
 const copyEmailButton = document.getElementById("copyEmailButton");
 const openMailButton = document.getElementById("openMailButton");
 const orderEmail = "rafael.sales@sct.ce.gov.br";
+const MAX_ITEM_QUANTITY = 99;
+const CHECKOUT_COOLDOWN_MS = 3000;
+const allowedImageOrigin = "https://images.unsplash.com";
 
 let cart = [];
+let lastCheckoutAt = 0;
+
+/**
+ * Escapa strings antes de inserir em HTML para reduzir risco de XSS.
+ * @param {string} value
+ * @returns {string}
+ */
+function escapeHtml(value = "") {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+/**
+ * Valida uma string simples antes de usá-la em atributos ou texto renderizado.
+ * @param {string} value
+ * @returns {string}
+ */
+function sanitizeText(value) {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  return value.replace(/[\u0000-\u001F\u007F]/g, "").trim().slice(0, 120);
+}
+
+/**
+ * Permite somente imagens HTTPS do provedor definido no catálogo.
+ * @param {string} value
+ * @returns {string}
+ */
+function sanitizeImageUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && url.origin === allowedImageOrigin ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Evita abrir vários checkouts em sequência por engano ou automação simples.
+ * @returns {boolean}
+ */
+function checkoutIsAvailable() {
+  const now = Date.now();
+  if (now - lastCheckoutAt < CHECKOUT_COOLDOWN_MS) {
+    window.alert("Aguarde alguns segundos antes de tentar novamente.");
+    return false;
+  }
+
+  lastCheckoutAt = now;
+  return true;
+}
 
 /**
  * Formata valores em moeda brasileira.
@@ -126,9 +186,9 @@ function addToCart(productName) {
 
   const existingItem = cart.find((item) => item.name === product.name);
 
-  if (existingItem) {
+  if (existingItem && existingItem.quantity < MAX_ITEM_QUANTITY) {
     existingItem.quantity += 1;
-  } else {
+  } else if (!existingItem) {
     cart.push({ ...product, quantity: 1 });
   }
 
@@ -153,7 +213,7 @@ function changeQuantity(productName, delta) {
   const item = cart.find((entry) => entry.name === productName);
   if (!item) return;
 
-  item.quantity += delta;
+  item.quantity = Math.min(MAX_ITEM_QUANTITY, item.quantity + delta);
 
   if (item.quantity <= 0) {
     removeFromCart(productName);
@@ -182,20 +242,24 @@ function renderCart() {
 
   cartItems.innerHTML = cart
     .map(
-      (item) => `
+      (item) => {
+        const safeName = escapeHtml(sanitizeText(item.name));
+
+        return `
         <div class="cart-item">
           <div>
-            <strong>${item.name}</strong>
+            <strong>${safeName}</strong>
             <small>${formatCurrency(item.price)} cada</small>
           </div>
 
           <div class="item-controls">
-            <button type="button" data-action="decrease" data-product="${item.name}" aria-label="Diminuir quantidade">−</button>
+            <button type="button" data-action="decrease" data-product="${safeName}" aria-label="Diminuir quantidade">−</button>
             <span>${item.quantity}</span>
-            <button type="button" data-action="increase" data-product="${item.name}" aria-label="Aumentar quantidade">+</button>
+            <button type="button" data-action="increase" data-product="${safeName}" aria-label="Aumentar quantidade">+</button>
           </div>
         </div>
-      `
+      `;
+      }
     )
     .join("");
 
@@ -282,7 +346,7 @@ function showEmailPreview() {
  * Envia o pedido por e-mail, abrindo o cliente de e-mail quando confirmado.
  */
 function sendOrderByEmail() {
-  if (cart.length === 0) return;
+  if (cart.length === 0 || !checkoutIsAvailable()) return;
 
   const { mailtoLink } = buildEmailMessage();
   showEmailPreview();
@@ -296,7 +360,7 @@ function sendOrderByEmail() {
  * Envia o pedido pelo WhatsApp.
  */
 function openWhatsAppCart() {
-  if (cart.length === 0) return;
+  if (cart.length === 0 || !checkoutIsAvailable()) return;
 
   const { text } = getOrderSummary();
   const phone = "5585988635296";
@@ -305,7 +369,7 @@ function openWhatsAppCart() {
   const confirmSend = window.confirm("Deseja abrir o WhatsApp para confirmar o pedido finalizado?");
   if (!confirmSend) return;
 
-  window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+  window.open(`https://wa.me/${phone}?text=${message}`, "_blank", "noopener,noreferrer");
 }
 
 /**
@@ -314,29 +378,37 @@ function openWhatsAppCart() {
 function renderProducts() {
   productGrid.innerHTML = products
     .map(
-      (product) => `
+      (product) => {
+        const safeName = escapeHtml(sanitizeText(product.name));
+        const safeCategory = escapeHtml(sanitizeText(product.category));
+        const safeDescription = escapeHtml(sanitizeText(product.description));
+        const safeTag = escapeHtml(sanitizeText(product.tag));
+        const safeImage = escapeHtml(sanitizeImageUrl(product.image));
+
+        return `
         <article class="product-card">
           <div class="product-image">
-            <img src="${product.image}" alt="${product.name}" />
-            <span class="product-tag">${product.tag}</span>
+            <img src="${safeImage}" alt="${safeName}" />
+            <span class="product-tag">${safeTag}</span>
           </div>
 
           <div class="product-body">
             <div class="product-meta">
-              <span class="product-category">${product.category}</span>
+              <span class="product-category">${safeCategory}</span>
               <span class="product-rating">★ ${product.rating}</span>
             </div>
 
-            <h3>${product.name}</h3>
-            <p>${product.description}</p>
+            <h3>${safeName}</h3>
+            <p>${safeDescription}</p>
 
             <div class="product-footer">
               <div class="product-price">${formatCurrency(product.price)}<small>à vista</small></div>
-              <button class="buy-btn" data-product="${product.name}">Adicionar</button>
+              <button class="buy-btn" data-product="${safeName}">Adicionar</button>
             </div>
           </div>
         </article>
-      `
+      `;
+      }
     )
     .join("");
 
