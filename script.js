@@ -102,6 +102,7 @@ const emailPreviewText = document.getElementById("emailPreviewText");
 const closeEmailPreview = document.getElementById("closeEmailPreview");
 const copyEmailButton = document.getElementById("copyEmailButton");
 const openMailButton = document.getElementById("openMailButton");
+const filterButtons = document.querySelectorAll(".catalog-filter");
 const orderEmail = "rafael.sales@sct.ce.gov.br";
 const MAX_ITEM_QUANTITY = 99;
 const CHECKOUT_COOLDOWN_MS = 3000;
@@ -111,6 +112,7 @@ const allowedImageOrigins = new Set([
 
 let cart = [];
 let lastCheckoutAt = 0;
+let activeProductFilter = "all";
 
 /**
  * Escapa strings antes de inserir em HTML para reduzir risco de XSS.
@@ -407,7 +409,19 @@ function openWhatsAppCart() {
  * Renderiza os produtos na grade de catálogo.
  */
 function renderProducts() {
-  productGrid.innerHTML = products
+  const visibleProducts = products.filter((product) => {
+    if (activeProductFilter === "services") {
+      return product.category === "Serviços";
+    }
+
+    if (activeProductFilter === "products") {
+      return product.category !== "Serviços";
+    }
+
+    return true;
+  });
+
+  productGrid.innerHTML = visibleProducts
     .map(
       (product) => {
         const safeName = escapeHtml(sanitizeText(product.name));
@@ -457,6 +471,20 @@ function renderProducts() {
  * Garante que o carrinho e os botões relevantes tenham os eventos necessários.
  */
 function bindCartEvents() {
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeProductFilter = button.dataset.filter;
+
+      filterButtons.forEach((filterButton) => {
+        const isActive = filterButton === button;
+        filterButton.classList.toggle("active", isActive);
+        filterButton.setAttribute("aria-pressed", String(isActive));
+      });
+
+      renderProducts();
+    });
+  });
+
   cartToggle.addEventListener("click", () => {
     const isOpen = cartPanel.classList.toggle("open");
     cartToggle.setAttribute("aria-expanded", String(isOpen));
