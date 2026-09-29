@@ -146,7 +146,7 @@ function sanitizeText(value) {
  */
 function sanitizeImageUrl(value) {
   try {
-    const url = new URL(value, window.location.origin);
+    const url = new URL(value, document.baseURI);
     const isLocal = url.origin === window.location.origin;
     const isAllowedExternal = url.protocol === "https:" && allowedImageOrigins.has(url.origin);
     return isLocal || isAllowedExternal ? url.href : "";
