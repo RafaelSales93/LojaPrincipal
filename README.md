@@ -27,6 +27,7 @@ A **Gemi Tech** é uma loja virtual demonstrativa de eletrônicos e utilidades. 
 - Cálculo automático do total.
 - Revisão do pedido por e-mail.
 - Envio do pedido pelo WhatsApp.
+- Serviços de manutenção, limpeza e formatação de computadores.
 - Layout adaptado para celular e computador.
 
 ## Visual do catálogo

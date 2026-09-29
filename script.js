@@ -68,6 +68,24 @@ const products = [
     image:
       "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80",
   },
+  {
+    name: "Manutenção de Computadores",
+    category: "Serviços",
+    price: 200,
+    rating: 5,
+    description: "Diagnóstico e manutenção para melhorar o desempenho e a confiabilidade do computador.",
+    tag: "Serviço",
+    image: "produtos/servicos/manutencao-computadores.jpg",
+  },
+  {
+    name: "Limpeza e Formatação",
+    category: "Serviços",
+    price: 100,
+    rating: 5,
+    description: "Limpeza interna e formatação para deixar o equipamento mais organizado e rápido.",
+    tag: "Serviço",
+    image: "produtos/servicos/limpeza-formatacao.jpg",
+  },
 ];
 
 const productGrid = document.getElementById("productGrid");
