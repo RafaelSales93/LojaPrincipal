@@ -6,8 +6,7 @@ const products = [
     rating: 5,
     description: "Miniatura detalhada do GEELY MONJARO 2027 para colecionadores e apaixonados por carros.",
     tag: "Novo",
-    image:
-      "https://lh3.googleusercontent.com/d/1GdQVJD1mDhF0JPXwX4fD1e8s5zzkEbgg=w900",
+    image: "images/geely-monjaro.webp",
   },
   {
     name: "Fone Bluetooth Pro",
@@ -37,7 +36,7 @@ const products = [
     description: "Som potente com bateria de longa duração, ideal para casa, praia e viagens.",
     tag: "Top review",
     image:
-      "https://images.unsplash.com/photo-1556451196-0ccbac5d2f74?auto=format&fit=crop&w=900&q=80",
+      "images/caixa-som.jpg",
   },
   {
     name: "Ventilador de Mesa",
@@ -90,8 +89,6 @@ const MAX_ITEM_QUANTITY = 99;
 const CHECKOUT_COOLDOWN_MS = 3000;
 const allowedImageOrigins = new Set([
   "https://images.unsplash.com",
-  "https://drive.usercontent.google.com",
-  "https://lh3.googleusercontent.com",
 ]);
 
 let cart = [];
@@ -131,8 +128,10 @@ function sanitizeText(value) {
  */
 function sanitizeImageUrl(value) {
   try {
-    const url = new URL(value);
-    return url.protocol === "https:" && allowedImageOrigins.has(url.origin) ? url.href : "";
+    const url = new URL(value, window.location.origin);
+    const isLocal = url.origin === window.location.origin;
+    const isAllowedExternal = url.protocol === "https:" && allowedImageOrigins.has(url.origin);
+    return isLocal || isAllowedExternal ? url.href : "";
   } catch {
     return "";
   }
