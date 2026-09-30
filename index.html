@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self'; form-action 'self' https://wa.me mailto:; upgrade-insecure-requests"
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>LojaPrincipal | Gemi Tech</title>
+    <meta
+      name="description"
+      content="Loja premium com eletrônicos, utilidades e atendimento exclusivo via WhatsApp."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      window.__SUPABASE_CONFIG__ = {
+        url: "http://127.0.0.1:54321",
+        anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0",
+      };
+    </script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="logo">
+          <span class="logo-mark">G</span>
+          <span>RVR Acessorios</span>
+        </div>
+
+        <nav class="menu" aria-label="Menu principal">
+          <a href="#produtos">Produtos</a>
+          <a href="#sobre">Sobre</a>
+          <a href="#contato">Contato</a>
+          <a href="admin.html">Admin</a>
+        </nav>
+
+        <a class="btn btn-primary" href="#produtos">Comprar agora</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <span class="badge">Tecnologia premium</span>
+            <h1>Eletrônicos e utilidades que elevam sua rotina.</h1>
+            <p>
+              Descubra produtos com design moderno, desempenho superior e qualidade que
+              entrega confiança em cada detalhe. A compra certa para quem quer mais estilo,
+              praticidade e presença.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#produtos">Ver coleção</a>
+              <a class="btn btn-secondary" href="#contato">Falar conosco</a>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="promo-card">
+              <div class="promo-image">
+                <img
+                  src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80"
+                  alt="Notebook e acessórios"
+                />
+              </div>
+              <div class="promo-details">
+                <span>Curadoria premium</span>
+                <strong>Performance em destaque</strong>
+                <small>Até 15% de desconto</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats">
+        <div class="container stats-grid">
+          <div>
+            <strong>2.500+</strong>
+            <span>Pedidos feitos</span>
+          </div>
+          <div>
+            <strong>48h</strong>
+            <span>Entrega rápida</span>
+          </div>
+          <div>
+            <strong>4.9/5</strong>
+            <span>Avaliação dos clientes</span>
+          </div>
+          <div>
+            <strong>Atendimento</strong>
+            <span>Via WhatsApp</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="produtos" class="products">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Produtos em destaque</span>
+            <h2>Escolha o que combina com você</h2>
+          </div>
+
+          <div class="catalog-filters" aria-label="Filtrar catálogo">
+            <button class="catalog-filter active" type="button" data-filter="all" aria-pressed="true">
+              Todos
+            </button>
+            <button class="catalog-filter" type="button" data-filter="products" aria-pressed="false">
+              Produtos
+            </button>
+            <button class="catalog-filter" type="button" data-filter="services" aria-pressed="false">
+              Serviços
+            </button>
+          </div>
+
+          <div id="productGrid" class="product-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="sobre" class="benefits">
+        <div class="container">
+          <div class="section-heading centered">
+            <span class="eyebrow">Por que comprar aqui?</span>
+            <h2>Produto de qualidade, compra fácil e atendimento humanizado.</h2>
+          </div>
+
+          <div class="benefit-grid">
+            <article>
+              <h3>Entrega segura</h3>
+              <p>Envio rápido e rastreado para todo o país.</p>
+            </article>
+            <article>
+              <h3>Preço justo</h3>
+              <p>Produtos com excelente custo-benefício e ofertas exclusivas.</p>
+            </article>
+            <article>
+              <h3>Suporte direto</h3>
+              <p>Atendimento personalizado pelo WhatsApp para tirar dúvidas.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="cart-floating">
+      <button id="cartToggle" class="cart-toggle" type="button" aria-expanded="false">
+        Carrinho
+        <span id="cartBadge" class="cart-badge">0</span>
+      </button>
+
+      <aside id="cartPanel" class="cart-panel" aria-label="Carrinho de compras">
+        <div class="cart-header">
+          <h3>Seu carrinho</h3>
+          <button id="closeCart" class="close-cart" type="button" aria-label="Fechar carrinho">×</button>
+        </div>
+
+        <div id="cartItems" class="cart-items">
+          <p class="empty-cart">Seu carrinho está vazio.</p>
+        </div>
+
+        <div class="cart-summary">
+          <div class="totals">
+            <span>Total</span>
+            <strong id="cartTotal">R$ 0,00</strong>
+          </div>
+          <button id="checkoutButton" class="checkout-btn" type="button" disabled>
+            Revisar por e-mail
+          </button>
+          <button id="whatsappCheckoutButton" class="whatsapp-checkout-btn" type="button" disabled>
+            Enviar pelo WhatsApp
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <div id="emailPreview" class="email-preview hidden" aria-live="polite">
+      <div class="email-preview-card">
+        <div class="email-preview-header">
+          <h3>Resumo do pedido</h3>
+          <button id="closeEmailPreview" type="button" aria-label="Fechar resumo do pedido">×</button>
+        </div>
+
+        <textarea id="emailPreviewText" readonly></textarea>
+
+        <div class="email-actions">
+          <button id="copyEmailButton" type="button" class="copy-email-btn">Copiar pedido</button>
+          <button id="openMailButton" type="button" class="open-mail-btn">Abrir e-mail</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="deliveryFormModal" class="email-preview hidden">
+      <div class="email-preview-card delivery-form-card" role="dialog" aria-modal="true" aria-labelledby="deliveryFormTitle">
+        <div class="email-preview-header">
+          <h3 id="deliveryFormTitle">Dados para entrega</h3>
+          <button id="closeDeliveryForm" type="button" aria-label="Fechar dados para entrega">×</button>
+        </div>
+
+        <form id="deliveryForm" class="delivery-form" novalidate>
+          <label for="deliveryFirstName">Nome</label>
+          <input id="deliveryFirstName" name="firstName" type="text" autocomplete="given-name" maxlength="80" required />
+
+          <label for="deliveryLastName">Sobrenome</label>
+          <input id="deliveryLastName" name="lastName" type="text" autocomplete="family-name" maxlength="80" required />
+
+          <label for="deliveryAddress">Endereço para entrega</label>
+          <textarea id="deliveryAddress" name="address" autocomplete="street-address" maxlength="240" required></textarea>
+
+          <label for="deliveryObservation">Observação</label>
+          <textarea id="deliveryObservation" name="observation" maxlength="500"></textarea>
+
+          <div class="delivery-form-actions">
+            <button id="cancelDeliveryForm" class="copy-email-btn" type="button">Cancelar</button>
+            <button class="whatsapp-checkout-btn" type="submit">Continuar para WhatsApp</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <footer id="contato" class="footer">
+      <div class="container footer-inner">
+        <div>
+          <div class="logo">
+            <span class="logo-mark">G</span>
+            <span>Gemi Tech</span>
+          </div>
+          <p>Seu parceiro em eletrônicos e utilidades para o dia a dia.</p>
+        </div>
+
+        <div class="contact-box">
+          <strong>Contato</strong>
+          <a href="mailto:vendas@gemitech.com.br">vendas@gemitech.com.br</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js?v=20260930-1"></script>
+  </body>
+</html>

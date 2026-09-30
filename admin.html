@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; connect-src 'self' http://127.0.0.1:54321 http://localhost:54321 https://*.supabase.co; form-action 'self'; upgrade-insecure-requests"
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>Painel Administrativo | LojaPrincipal</title>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <div class="admin-shell">
+      <div id="authCard" class="card auth-card">
+        <p class="eyebrow">Área restrita</p>
+        <h1>Painel administrativo</h1>
+        <p class="subtitle">Acesse com email e senha para visualizar pedidos e itens mais vistos.</p>
+
+        <form id="authForm" class="auth-form">
+          <label for="adminEmail">Email</label>
+          <input id="adminEmail" name="email" type="email" placeholder="seu-email@dominio.com" required />
+
+          <label for="adminPassword">Senha</label>
+          <input id="adminPassword" name="password" type="password" placeholder="Sua senha" required />
+
+          <div class="auth-actions">
+            <button id="loginButton" type="submit" class="primary-btn">Entrar</button>
+            <button id="signupButton" type="button" class="secondary-btn">Criar conta</button>
+          </div>
+        </form>
+
+        <div id="statusMessage" class="status-message" aria-live="polite"></div>
+      </div>
+
+      <section id="dashboard" class="dashboard hidden">
+        <header class="dashboard-header">
+          <div>
+            <p class="eyebrow">Resumo</p>
+            <h2>Visão geral da loja</h2>
+          </div>
+          <button id="logoutButton" type="button" class="secondary-btn">Sair</button>
+        </header>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Total de pedidos</span>
+            <strong id="ordersCount">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Faturamento</span>
+            <strong id="revenueTotal">R$ 0,00</strong>
+          </article>
+          <article class="stat-card">
+            <span>Produtos vistos</span>
+            <strong id="viewedCount">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Último pedido</span>
+            <strong id="latestOrder">-</strong>
+          </article>
+        </div>
+
+        <div class="content-grid">
+          <article class="card panel">
+            <h3>Pedidos recentes</h3>
+            <ul id="ordersList" class="list"></ul>
+          </article>
+
+          <article class="card panel">
+            <h3>Itens mais vistos</h3>
+            <ul id="topViewsList" class="list"></ul>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      window.__SUPABASE_CONFIG__ = {
+        url: "http://127.0.0.1:54321",
+        anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0",
+      };
+    </script>
+    <script src="admin.js?v=20260930-1"></script>
+  </body>
+</html>
