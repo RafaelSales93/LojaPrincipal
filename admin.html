@@ -19,12 +19,12 @@
         <h1>Painel administrativo</h1>
         <p class="subtitle">Acesse com email e senha para visualizar pedidos e itens mais vistos.</p>
 
-        <form id="authForm" class="auth-form">
+        <form id="authForm" class="auth-form" autocomplete="off">
           <label for="adminEmail">Email</label>
-          <input id="adminEmail" name="email" type="email" placeholder="seu-email@dominio.com" required />
+          <input id="adminEmail" name="email" type="email" autocomplete="username" placeholder="seu-email@dominio.com" required />
 
           <label for="adminPassword">Senha</label>
-          <input id="adminPassword" name="password" type="password" placeholder="Sua senha" required />
+          <input id="adminPassword" name="password" type="password" autocomplete="new-password" placeholder="Sua senha" required />
 
           <div class="auth-actions">
             <button id="loginButton" type="submit" class="primary-btn">Entrar</button>

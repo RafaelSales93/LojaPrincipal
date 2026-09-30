@@ -255,6 +255,7 @@ async function handleSignUp() {
 async function handleLogout() {
   if (!supabaseClient) return;
   await supabaseClient.auth.signOut();
+  authForm.reset();
   authCard.classList.remove("hidden");
   dashboard.classList.add("hidden");
   showStatus("Sessão encerrada.", "success");
